@@ -1,0 +1,19 @@
+<h1>Adicionar despesa</h1>
+<div class="inputBox">
+    Data
+    <br>
+    <input type="date" [(ngModel)]="dateValue">
+</div>
+<div class="inputBox">
+    Descrição
+    <br>
+    <input type="text" [(ngModel)]="descricaoValue">
+</div>
+<div class="inputBox">
+    Valor
+    <br>
+    <input type="number" [(ngModel)]="valorValue">
+</div>
+<div class="inputBox">
+    <button (click)="addExpense()">Adicionar</button>
+</div>

@@ -1,0 +1,86 @@
+<div>
+    <h1>Current month is {{currentMonth}}</h1>
+    <div class="row">
+        <div class="info-col">
+            <div class="row-inner">
+                <div class="centered">
+                    <div>
+                        Valor do ordenado:
+                    </div>
+                    <div class="valueHighlighted">
+                        {{salary | currency:'EUR'}}
+                    </div>
+                </div>
+                <div class="centered">
+                    <div>
+                        Subsídio de alimentação:
+                    </div>
+                    <div class="valueHighlighted">
+                        {{mealAllowance | currency:'EUR'}}
+                    </div>
+
+                </div>
+            </div>
+            <div class="row-inner">
+                <div class="centered">
+                    <div>
+                        Total gasto este mês:
+                    </div>
+                    <div class="valueHighlighted">
+                        {{totalSpentThisMonth | currency:'EUR'}}
+                    </div>
+                </div>
+                <div class="centered">
+                    <div>
+                        Total do salário gasto:
+                    </div>
+                    <div class="valueHighlighted">
+                        {{totalSpentThisMonthPercentageOfTotalSalary}} %
+                    </div>
+                </div>
+            </div>
+            <div class="row-inner">
+                <div *ngIf="salary == 0; else elseBlockSalary">
+                    <input #salary type="number" class="inputBox"><br>
+                    <button class="inputBox" (click)="changeSalary(salary.value)">Inserir ordenado</button>
+                </div>
+                <ng-template #elseBlockSalary> <button class="inputBox" (click)="resetSalary()">Redefinir
+                        salário</button></ng-template>
+            </div>
+            <div class="row-inner">
+                <ng-template #elseBlockSalary><button (click)="resetSalary()">Redefinir ordenado</button></ng-template>
+                <div *ngIf="mealAllowance == 0; else elseBlockMeal">
+                    <input #mealAllowance type="number" class="inputBox"><br>
+                    <button class="inputBox" (click)="changeMealAllowance(mealAllowance.value)">Inserir subídio de
+                        alimentação</button>
+                </div>
+                <ng-template #elseBlockMeal> <button class="inputBox" (click)="resetMealAllowance()">Redefinir subsídio
+                        de alimentação</button></ng-template>
+            </div>
+        </div>
+        <div class="transaction-col">
+            <div class="table">
+                <table>
+                    <tr>
+                        <th id="col">Dia</th>
+                        <th id="col">Descrição</th>
+                        <th id="col">Valor</th>
+                        <th id="col">Actions</th>
+                    </tr>
+                    <tr *ngFor="let transaction of transactions">
+                        <td>{{this.getDate(transaction.date)}}</td>
+                        <td>{{transaction.description}}</td>
+                        <td>{{transaction.value | currency:'EUR'}}</td>
+                        <td>
+                            <span class="material-icons">face</span>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="buttondiv">
+                <button [routerLink]="'addExpense'">Add new transaction</button>
+            </div>
+        </div>
+    </div>
+</div>

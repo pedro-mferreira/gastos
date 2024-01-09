@@ -1,0 +1,73 @@
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.row-inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+
+.info-col {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.transaction-col {
+    width: 70%;
+}
+
+.info-col>div {
+    margin: 20px 0 20px 0;
+}
+
+.valueHighlighted {
+    font-size: 30px;
+}
+
+.inputBox {
+    width: 200px;
+    border-radius: 5px;
+    min-height: 30px;
+    border: 1px solid black;
+    padding: 0px;
+}
+
+table {
+    text-align: center;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+td {
+    border: 1px solid black;
+}
+
+#col {
+    width: 150px;
+
+}
+
+.table {
+    display: flex;
+    justify-content: center;
+}
+
+.buttondiv {
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+}
+
