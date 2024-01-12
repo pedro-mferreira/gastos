@@ -9,17 +9,25 @@ import { FormsModule } from '@angular/forms';
 
 import { HttpClientModule } from  '@angular/common/http';
 
+import {MatIconModule} from '@angular/material/icon';
+import { AddIncomeComponent } from './add-income/add-income.component';
+import { AddBalanceComponent } from './add-balance/add-balance.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     CurrentMonthComponent,
-    AddExpenseComponent
+    AddExpenseComponent,
+    AddIncomeComponent,
+    AddBalanceComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
+    
     HttpClientModule,
+    MatIconModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

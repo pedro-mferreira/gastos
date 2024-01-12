@@ -1,5 +1,7 @@
 export interface Transaction {
-    date: number,
+    id?: number,
+    date: string,
+    month: string,
     description: string,
     value: number
 }

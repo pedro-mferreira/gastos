@@ -4,6 +4,9 @@ import { Transaction } from '../transaction';
 import { HttpService } from '../http.service';
 import { switchMap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
+import { Balance } from '../balance';
+import { Router } from '@angular/router';
+
 
 
 
@@ -12,24 +15,27 @@ import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-current-month',
   templateUrl: './current-month.component.html',
-  styleUrls: ['./current-month.component.css']
+  styleUrls: ['./current-month.component.css'],
 })
 export class CurrentMonthComponent implements OnInit {
 
-
+  daysInMonth: number[] = Array.from({ length: 31 }, (_, index) => index + 1);
   currentMonth: string = "Janeiro"
   month: string[] = ["january", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   transactions: Transaction[] = [];
+  incomes: Income[] = [];
+  balances: Balance[] = [];
 
   totalSpentThisMonth: number = 0;
   totalSpentThisMonthPercentageOfTotalSalary: string = "";
+  totalEarned: number = 0;
   totalSalary: number = 0;
   salary: number = 918;
   mealAllowance: number = 0;
 
 
 
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService, private router: Router) {
 
   }
 
@@ -45,16 +51,22 @@ export class CurrentMonthComponent implements OnInit {
           this.totalSpentThisMonth += Number(elem.value);
         });
         return forkJoin([
-          this.httpService.getIncome(this.currentMonth, "salary"),
-          this.httpService.getIncome(this.currentMonth, "mealAllowance")
+          this.httpService.getIncomes(this.currentMonth),
+          this.httpService.getBalances(this.currentMonth)
         ]);
       })
-    ).subscribe(([salaryResponse, mealAllowanceResponse]) => {
-      this.salary = Number(salaryResponse.value);
-      this.mealAllowance = Number(mealAllowanceResponse.value);
+    ).subscribe(([incomesResponse, balancesResponse]) => {
+      this.balances = balancesResponse;
+      this.incomes = incomesResponse;
+      this.incomes.forEach(income => {
+        this.totalEarned+= Number(income.value);
+      })
+      this.salary = Number(this.incomes.find(obj => obj.description === "salary")?.value);
+      this.mealAllowance = Number(this.incomes.find(obj => obj.description === "mealAllowance")?.value);
+      this.incomes = this.incomes.filter(obj => obj.description !== "salary" && obj.description !== "mealAllowance");
       this.totalSalary = this.salary + this.mealAllowance;
       this.totalSpentThisMonthPercentageOfTotalSalary = (this.totalSpentThisMonth / this.totalSalary * 100).toFixed(2);
-      this.transactions.sort((a, b) => a.date - b.date);
+      this.transactions.sort((a, b) => Number(a.date) - Number(b.date));
     });
   }
 
@@ -70,8 +82,8 @@ export class CurrentMonthComponent implements OnInit {
     })
   }
 
-  getDate(number: number): number {
-    return new Date(number).getDate();
+  getDate(date: string): number {
+    return new Date(Number(date)).getDate();
   }
 
   changeMealAllowance(newValue: string) {
@@ -96,8 +108,9 @@ export class CurrentMonthComponent implements OnInit {
     }
     this.httpService.postIncome(income).subscribe((response) => {
       console.log(response);
+      this.updateTotals()
     });
-    this.updateTotals()
+    
   }
 
   resetSalary(): void {
@@ -106,6 +119,10 @@ export class CurrentMonthComponent implements OnInit {
 
   resetMealAllowance(): void {
     this.mealAllowance = 0;
+  }
+
+  navigateToAddExpense(transaction: Transaction) {
+    this.router.navigate(['/addExpense',  {descricaoValue: transaction.description, dateValue: transaction.date, valorValue: transaction.value, editMode: true, id: transaction.id}  ]);
   }
 
 }
