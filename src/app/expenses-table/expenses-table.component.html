@@ -1,0 +1,28 @@
+<p>start</p>
+<div class="buttondiv">
+    <span>Despesas</span>
+    <button [routerLink]="'addExpense'">Add new transaction</button>
+</div>
+<div class="table">
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th id="col">Dia</th>
+                <th id="col">Descrição</th>
+                <th id="col">Valor</th>
+                <th id="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let transaction of transactions">
+                <td>{{this.getDate(transaction.date)}}</td>
+                <td>{{transaction.description}}</td>
+                <td>{{transaction.value | currency:'EUR'}}</td>
+                <td>
+                    <a (click)="navigateToAddExpense(transaction)">Edit</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p>end</p>

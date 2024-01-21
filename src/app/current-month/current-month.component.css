@@ -46,29 +46,75 @@
     padding: 0px;
 }
 
-table {
-    text-align: center;
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-
-td {
-    border: 1px solid black;
-}
-
-#col {
-    width: 150px;
-
-}
-
-.table {
-    display: flex;
-    justify-content: center;
+button.inputBox {
+    height: 50px;
+    border: none;
+    box-shadow: 0px 0px 5px 3px #9ea0a1;
+    font-size: 16px;
+    background-color: #ffff;
+    color: black;
+    margin-top: 10px;
 }
 
 .buttondiv {
+    width: inherit;
     display: flex;
-    justify-content: center;
-    padding: 50px;
+    justify-content: space-between;
+}
+
+.boxshadow {
+    min-width: 200px;
+    box-shadow: 0px 0px 10px 5px rgb(179, 179, 179);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.greenshadow {
+    box-shadow: 0px 0px 10px 5px rgb(5, 151, 36);
+}
+
+.redshadow {
+    box-shadow: 0px 0px 10px 5px rgb(250, 65, 65);
+}
+
+
+.styled-table {
+    text-align: center;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #006898;
+    color: #ffffff;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 35px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #006898;
+}
+
+th:first-of-type {
+    border-top-left-radius: 10px;
+}
+
+th:last-of-type {
+    border-top-right-radius: 10px;
 }
 

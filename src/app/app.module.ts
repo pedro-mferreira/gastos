@@ -12,6 +12,7 @@ import { HttpClientModule } from  '@angular/common/http';
 import {MatIconModule} from '@angular/material/icon';
 import { AddIncomeComponent } from './add-income/add-income.component';
 import { AddBalanceComponent } from './add-balance/add-balance.component';
+import { ExpensesTableComponent } from './expenses-table/expenses-table.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AddBalanceComponent } from './add-balance/add-balance.component';
     CurrentMonthComponent,
     AddExpenseComponent,
     AddIncomeComponent,
-    AddBalanceComponent
+    AddBalanceComponent,
+    ExpensesTableComponent
   ],
   imports: [
     BrowserModule,

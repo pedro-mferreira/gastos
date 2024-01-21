@@ -3,7 +3,7 @@
     <div class="row">
         <div class="info-col">
             <div class="row-inner">
-                <div class="centered">
+                <div class="centered boxshadow greenshadow">
                     <div>
                         Valor do ordenado:
                     </div>
@@ -11,7 +11,7 @@
                         {{salary | currency:'EUR'}}
                     </div>
                 </div>
-                <div class="centered">
+                <div class="centered boxshadow greenshadow">
                     <div>
                         Subsídio de alimentação:
                     </div>
@@ -22,7 +22,28 @@
                 </div>
             </div>
             <div class="row-inner">
-                <div class="centered">
+                <div *ngIf="salary == 0; else elseBlockSalary">
+                    <input #salary type="number" class="inputBox"><br>
+                    <button class="inputBox" (click)="changeSalary(salary.value)">Inserir ordenado</button>
+                </div>
+                <ng-template #elseBlockSalary>
+                    <button class="inputBox" (click)="changeSalary('0')">
+                        Redefinir salário
+                    </button>
+                </ng-template>
+                <div *ngIf="mealAllowance == 0; else elseBlockMeal">
+                    <input #mealAllowance type="number" class="inputBox"><br>
+                    <button class="inputBox" (click)="changeMealAllowance(mealAllowance.value)">Inserir subídio de
+                        alimentação</button>
+                </div>
+                <ng-template #elseBlockMeal>
+                    <button class="inputBox" (click)="changeMealAllowance('0')">
+                        Redefinir subsídio de alimentação
+                    </button>
+                </ng-template>
+            </div>
+            <div class="row-inner">
+                <div class="centered boxshadow redshadow">
                     <div>
                         Total gasto este mês:
                     </div>
@@ -30,7 +51,7 @@
                         {{totalSpentThisMonth | currency:'EUR'}}
                     </div>
                 </div>
-                <div class="centered">
+                <div class="centered boxshadow redshadow">
                     <div>
                         Total do salário gasto:
                     </div>
@@ -40,7 +61,7 @@
                 </div>
             </div>
             <div class="row-inner">
-                <div class="centered">
+                <div class="centered  boxshadow">
                     <div>
                         Quanto sobra
                     </div>
@@ -49,102 +70,77 @@
                     </div>
                 </div>
             </div>
-            <div class="row-inner">
-                <div *ngIf="salary == 0; else elseBlockSalary">
-                    <input #salary type="number" class="inputBox"><br>
-                    <button class="inputBox" (click)="changeSalary(salary.value)">Inserir ordenado</button>
-                </div>
-                <ng-template #elseBlockSalary> <button class="inputBox" (click)="changeSalary('0')">Redefinir
-                        salário</button></ng-template>
-            </div>
-            <div class="row-inner">
-                <ng-template #elseBlockSalary><button (click)="changeMealAllowance('0')">Redefinir
-                        ordenado</button></ng-template>
-                <div *ngIf="mealAllowance == 0; else elseBlockMeal">
-                    <input #mealAllowance type="number" class="inputBox"><br>
-                    <button class="inputBox" (click)="changeMealAllowance(mealAllowance.value)">Inserir subídio de
-                        alimentação</button>
-                </div>
-                <ng-template #elseBlockMeal> <button class="inputBox" (click)="resetMealAllowance()">Redefinir subsídio
-                        de alimentação</button></ng-template>
-            </div>
-            <div>
-                <h3>Balances</h3>
-                <table>
-                    <tr>
-                        <th id="col">Conta</th>
-                        <th id="col">Valor</th>
 
-                    </tr>
-                    <tr *ngFor="let balance of balances">
-                        <td>{{balance.description}}</td>
-                        <td>{{balance.value}}</td>
-                    </tr>
-                </table>
+            <div class="centered">
                 <div class="buttondiv">
+                    <span>Balances</span>
                     <button [routerLink]="'addBalance'">Add balance</button>
                 </div>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th id="col">Conta</th>
+                            <th id="col">Valor</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let balance of balances">
+                            <td>{{balance.description}}</td>
+                            <td>{{balance.value}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
             </div>
-           
+
         </div>
         <div class="transaction-col">
-            <h3>Despesas</h3>
-            <div class="table">
-                <table>
-                    <tr>
-                        <th id="col">Dia</th>
-                        <th id="col">Descrição</th>
-                        <th id="col">Valor</th>
-                        <th id="col">Actions</th>
-                    </tr>
-                    <tr *ngFor="let transaction of transactions">
-                        <td>{{this.getDate(transaction.date)}}</td>
-                        <td>{{transaction.description}}</td>
-                        <td>{{transaction.value | currency:'EUR'}}</td>
-                        <td>
-                            <a (click)="navigateToAddExpense(transaction)">Navigate to Add Expense</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            <app-expenses-table [transactions]="transactions"></app-expenses-table>
             <div class="buttondiv">
-                <button [routerLink]="'addExpense'">Add new transaction</button>
-            </div>
-            <h3>Ganhos Extra</h3>
-            <div class="table">
-                <table>
-                    <tr>
-                        <th id="col">Descrição</th>
-                        <th id="col">Valor</th>
-                        <th id="col">Actions</th>
-                    </tr>
-                    <tr *ngFor="let income of incomes">
-                        <td>{{income.description}}</td>
-                        <td>{{income.value | currency:'EUR'}}</td>
-                        <td>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="buttondiv">
+                <span>Ganhos Extra</span>
                 <button [routerLink]="'addIncome'">Add income</button>
             </div>
-            <div>
-                <table>
-                    <tr>
-                        <th id="col">Dia</th>
-                        <th id="col">Percentagem</th>
-                        <th id="col">Gasto</th>
-
-                    </tr>
-                    <tr *ngFor="let day of daysInMonth">
-                        <td>{{day}}</td>
-                        <td>{{ (day * (50/31)).toFixed(2)}}%</td>
-                        <td>{{(day * (50/31) / 100 * this.salary).toFixed(2) | currency: 'EUR'}}</td>
-                    </tr>
+            <div class="table">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th id="col">Descrição</th>
+                            <th id="col">Valor</th>
+                            <th id="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let income of incomes">
+                            <td>{{income.description}}</td>
+                            <td>{{income.value | currency:'EUR'}}</td>
+                            <td>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
-            
+
+            <div>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th id="col">Dia</th>
+                            <th id="col">Percentagem</th>
+                            <th id="col">Gasto</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let day of daysInMonth">
+                            <td>{{day}}</td>
+                            <td>{{ (day * (50/31)).toFixed(2)}}%</td>
+                            <td>{{(day * (50/31) / 100 * this.salary).toFixed(2) | currency: 'EUR'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 </div>
